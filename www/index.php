@@ -4,7 +4,7 @@
 session_start();
 
 // If the shopping cart does not exist
-if( !isset($_SESSION['cart']) ) {
+if( !isset($_SESSION['cart']) || isset($_GET['clearcart']) ) {
 
 	// Create the cart
 	$_SESSION['cart'] = [];
@@ -33,13 +33,33 @@ if (isset($_POST['add-to-cart']) ) {
 	//Convert in to associative array
 	$result = $result->fetch_assoc();
 
-	//Add the item to the cart
-	$_SESSION['cart'] [] = ['id'=>$productID,
-							 'quantity'=> $_POST['quantity'],
-							 'name'=> $result['name'],
-							 'price'=> $result['price']
-							 ];
-}
+	$found = false;
+
+	//see if the user adding same item to their cart
+	for($i=0; $i<count($_SESSION['cart']); $i++ ) {
+		//is the id of the product they are adding
+		// the same as the id of this cart item?
+
+		if ($_SESSION['cart'][$i]['id'] == $productID) {
+			$found = true;
+			//yes, they have already added this item to the cart
+			//update the quantity
+			$_SESSION['cart'][$i]['quantity'] += $_POST['quantity'];
+
+
+		}
+	}
+
+
+	//Add the item to the cart only if the product was not found
+	if ($found == false) {
+		$_SESSION['cart'] [] = ['id'=>$productID,
+								 'quantity'=> $_POST['quantity'],
+								 'name'=> $result['name'],
+								 'price'=> $result['price']
+								 ];
+		}
+	}			
 
 // Include the website header
 include 'app/templates/header.php';
