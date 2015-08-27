@@ -41,6 +41,9 @@ if(isset($inCart)){
 	echo '<li>Already in cart</li>';
 	echo '<li>in cart: '.$inCart.'</li>';
 	echo '</ul>';
+	unset($inCart);
 }
+
+unset($newQuantity);
 
 ?>

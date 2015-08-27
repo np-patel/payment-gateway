@@ -59,6 +59,8 @@ if (isset($_POST['add-to-cart']) ) {
 								 'price'=> $result['price']
 								 ];
 		}
+
+		header('location: index.php');
 	}			
 
 // Include the website header
