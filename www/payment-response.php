@@ -64,6 +64,10 @@ if($response->getSuccess() ){
 	}
 
 
+	//clear the cart
+
+	$_SESSION['cart'] = [];
+
 } else{
 	//fail :(
 }
